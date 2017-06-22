@@ -1,0 +1,13 @@
+errors:
+  description:
+    EXC400: INVALID INPUT
+    EXC404: NO CONTENT FOUND
+    EXC501: JSON PARSE ERROR
+
+api:
+  build:
+    version: 0.0.1
+  info:
+    title: chordLyric - build no. ${api.build.version}
+    description: Server component chordLyric
+    version: 0.1

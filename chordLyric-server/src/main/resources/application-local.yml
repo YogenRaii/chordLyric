@@ -1,0 +1,15 @@
+server:
+  port: 8083
+  
+api:
+  build:
+    version: 0.0.1
+    
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000/
+
+
+logging:
+  level: 
+    org.springframework.security: DEBUG

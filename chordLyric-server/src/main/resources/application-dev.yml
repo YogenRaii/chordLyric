@@ -1,0 +1,7 @@
+api:
+  build:
+    version: 0.0.1
+
+amazon:
+  dynamodb:
+    endpoint: https://dynamodb.us-east-1.amazonaws.com
