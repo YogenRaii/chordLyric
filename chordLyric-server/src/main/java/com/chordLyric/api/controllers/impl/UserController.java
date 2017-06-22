@@ -26,8 +26,8 @@ import com.chordLyric.api.exceptions.DataException;
 import com.chordLyric.api.models.common.ErrorCodes;
 import com.chordLyric.api.models.impl.User;
 import com.chordLyric.api.models.interfaces.impl.UserRequest;
+import com.chordLyric.api.models.types.RoleType;
 import com.chordLyric.api.services.UserService;
-import com.chordLyric.api.utils.RoleType;
 
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;

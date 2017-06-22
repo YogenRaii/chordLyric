@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.chordLyric.api.utils;
+package com.chordLyric.api.models.types;
 
 /**
  * @author Yogen
