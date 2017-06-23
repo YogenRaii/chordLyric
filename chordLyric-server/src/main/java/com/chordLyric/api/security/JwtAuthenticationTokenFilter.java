@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
 //	private static final String URL_PATTERN = "/api/([a-z0-9.]+)/(?!users)([a-zA-Z0-9]+)(/([a-z0-9-]+))*(\\?([a-zA-Z0-9]+)=(.+)(&([a-zA-Z0-9]+)=([a-z0-9]+))*)*";
-	private static final String URL_PATTERN = "/api/([a-z0-9.]+)/([a-zA-Z0-9]+)(/([a-z0-9-]+))*(\\?([a-zA-Z0-9]+)=(.+)(&([a-zA-Z0-9]+)=([a-z0-9]+))*)*";
+	private static final String URL_PATTERN = "/api/([a-z0-9.]+)/(?!songSearch)([a-zA-Z0-9]+)(/([a-z0-9-]+))*(\\?([a-zA-Z0-9]+)=(.+)(&([a-zA-Z0-9]+)=([a-z0-9]+))*)*";
 	
 	
 	@Value("${jwt.header}")

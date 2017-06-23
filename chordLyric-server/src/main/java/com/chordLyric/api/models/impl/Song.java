@@ -69,4 +69,7 @@ public class Song extends Article {
 	
 	@DynamoDBAttribute(attributeName = "ContributerId")
 	private String contributerId;
+	
+	@DynamoDBAttribute(attributeName = "LastUpdate")
+	private UpdateDetail lastUpdate;
 }

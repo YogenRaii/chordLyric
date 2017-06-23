@@ -10,5 +10,4 @@ import com.chordLyric.api.models.impl.User;
  *
  */
 public interface UserService extends CommonService<String, User> {
-	User createUser(User user);
 }

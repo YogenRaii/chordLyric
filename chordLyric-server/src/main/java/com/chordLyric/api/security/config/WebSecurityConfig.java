@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// we don't need CSRF because our token is invulnerable
 				.csrf().disable()
 				// permit swagger and signup for all
-				.authorizeRequests().antMatchers("/swagger-ui.html").permitAll().and()
+				.authorizeRequests().antMatchers("/api/v0.1/songSearch/**", "/swagger-ui.html").permitAll().and()
 				// All others urls must be authenticated (filter for token
 				// always fires
 				.authorizeRequests().antMatchers("/api/**").authenticated().and()

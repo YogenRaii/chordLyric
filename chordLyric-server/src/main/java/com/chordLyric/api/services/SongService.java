@@ -11,5 +11,5 @@ import com.chordLyric.api.models.impl.Song;
  */
 public interface SongService extends CommonService<String, Song> {
 
-	String createSong(Song song);
+	
 }

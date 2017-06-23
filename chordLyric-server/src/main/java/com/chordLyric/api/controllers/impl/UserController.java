@@ -64,10 +64,10 @@ public class UserController implements BaseController<User> {
 			throw new DataException(ErrorCodes.EXC400.toString(), bindingResult);
 		}
 		User user = getUserRequest(userRequest);
-		User createdUser = this.userService.createUser(user);
-		log.info("feedback saved id: {}", createdUser.getId());
+		String createdUserId = this.userService.create(user);
+		log.info("feedback saved id: {}", createdUserId);
 
-		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/auth/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -110,22 +110,6 @@ public class UserController implements BaseController<User> {
 				.role(RoleType.ROLE_CONTRIBUTER)
 				.token(token)
 				.build();
-		
-		/*User user = new User();
-		user.setEmail(userRequest.getEmail());
-		user.setUsername(userRequest.getUsername());
-		user.setFirstName(userRequest.getFirstName());
-		user.setLastName(userRequest.getLastName());
-		user.setDateCreated(new Date());
-		user.setRole(RoleType.ROLE_CONTRIBUTER);
-		String id = UUID.randomUUID().toString();
-		String token = JwtTokenGenerator.generateToken(new JwtUserDto(id,
-				userRequest.getUsername(), 
-				RoleType.ROLE_CONTRIBUTER.toString()), 
-				secret);
-		user.setId(id);
-		user.setToken(token);
-		return user;*/
 	}
 
 }
