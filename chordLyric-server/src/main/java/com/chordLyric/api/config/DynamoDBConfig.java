@@ -18,6 +18,7 @@ import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.util.StringUtils;
+import com.chordLyric.api.models.impl.Song;
 import com.chordLyric.api.models.impl.User;
 import com.chordLyric.api.utils.SystemParams;
 
@@ -64,7 +65,8 @@ public class DynamoDBConfig {
 		ListTablesResult listTablesResult = amazonDynamoDB.listTables();
 		
 		List<CreateTableRequest> tableRequests = Arrays.asList(
-				dynamoDBMapper.generateCreateTableRequest(User.class)
+				dynamoDBMapper.generateCreateTableRequest(User.class),
+				dynamoDBMapper.generateCreateTableRequest(Song.class)
 				);
 		
 		tableRequests.stream().forEach(tableRequest -> {

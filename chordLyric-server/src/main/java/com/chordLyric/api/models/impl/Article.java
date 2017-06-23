@@ -9,5 +9,5 @@ package com.chordLyric.api.models.impl;
  */
 public abstract class Article {
 
-	private String id;
+	public abstract String getId();
 }
