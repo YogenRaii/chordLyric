@@ -16,6 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chordLyric.api.controllers.BaseController;
 import com.chordLyric.api.exceptions.DataException;
+import com.chordLyric.api.exceptions.NotFoundException;
 import com.chordLyric.api.models.common.ErrorCodes;
 import com.chordLyric.api.models.impl.User;
 import com.chordLyric.api.models.interfaces.impl.UserRequest;
+import com.chordLyric.api.models.interfaces.impl.UserResponse;
 import com.chordLyric.api.models.types.RoleType;
+import com.chordLyric.api.security.models.AuthenticatedUser;
+import com.chordLyric.api.security.transfer.JwtUserDto;
+import com.chordLyric.api.security.utils.JwtTokenGenerator;
 import com.chordLyric.api.services.UserService;
 
 import io.swagger.annotations.ApiParam;
@@ -62,7 +70,7 @@ public class UserController implements BaseController<User> {
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 
-/*	@GetMapping(value = "/auth/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/auth/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<UserResponse> getUser(
 			@ApiParam(value = "Token with format 'Bearer Token'", required = true) @RequestHeader("Authorization") final String authorization) {
 		SecurityContext context = SecurityContextHolder.getContext();
@@ -77,14 +85,33 @@ public class UserController implements BaseController<User> {
 			return new ResponseEntity<>(userResponse, HttpStatus.OK);
 		}).orElseThrow(() -> new NotFoundException(ErrorCodes.EXC404.toString(), null));
 
-	}*/
+	}
+	
+	@Value("${jwt.secret}")
+	private String secret;
 
 	/**
 	 * @param userRequest
 	 * @return User object
 	 */
 	private User getUserRequest(UserRequest userRequest) {
-		User user = new User();
+		String id = UUID.randomUUID().toString();
+		String token = JwtTokenGenerator.generateToken(new JwtUserDto(id,
+				userRequest.getUsername(), 
+				RoleType.ROLE_CONTRIBUTER.toString()), 
+				secret);
+		
+		return User.builder().id(id)
+				.username(userRequest.getUsername())
+				.email(userRequest.getEmail())
+				.firstName(userRequest.getFirstName())
+				.lastName(userRequest.getLastName())
+				.dateCreated(new Date())
+				.role(RoleType.ROLE_CONTRIBUTER)
+				.token(token)
+				.build();
+		
+		/*User user = new User();
 		user.setEmail(userRequest.getEmail());
 		user.setUsername(userRequest.getUsername());
 		user.setFirstName(userRequest.getFirstName());
@@ -92,13 +119,13 @@ public class UserController implements BaseController<User> {
 		user.setDateCreated(new Date());
 		user.setRole(RoleType.ROLE_CONTRIBUTER);
 		String id = UUID.randomUUID().toString();
-		/*String token = JwtTokenGenerator.generateToken(new JwtUserDto(id,
-				userRequest.getFirstName() + "-" + userRequest.getLastName(), 
-				RoleType.ROLE_MEMBER.toString()), 
-				secret);*/
+		String token = JwtTokenGenerator.generateToken(new JwtUserDto(id,
+				userRequest.getUsername(), 
+				RoleType.ROLE_CONTRIBUTER.toString()), 
+				secret);
 		user.setId(id);
-		user.setToken(UUID.randomUUID().toString());
-		return user;
+		user.setToken(token);
+		return user;*/
 	}
 
 }

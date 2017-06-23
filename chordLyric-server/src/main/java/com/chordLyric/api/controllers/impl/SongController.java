@@ -15,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +29,7 @@ import com.chordLyric.api.controllers.BaseController;
 import com.chordLyric.api.exceptions.DataException;
 import com.chordLyric.api.models.common.ErrorCodes;
 import com.chordLyric.api.models.impl.Song;
+import com.chordLyric.api.security.models.AuthenticatedUser;
 import com.chordLyric.api.services.SongService;
 
 import io.swagger.annotations.ApiParam;
@@ -52,6 +56,14 @@ public class SongController implements BaseController<Song> {
 		if (bindingResult.hasErrors()) {
 			throw new DataException(ErrorCodes.EXC400.toString(), bindingResult);
 		}
+		
+		song.setApproved(false);
+		
+		//setting contributer ID with currently loggedIn user
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		song.setContributerId(((AuthenticatedUser)auth.getPrincipal()).getId());
+		
 		String createdSongId = this.songService.createSong(song);
 		log.info("Song saved id: {}", createdSongId);
 
