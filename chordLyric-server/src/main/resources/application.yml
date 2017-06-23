@@ -11,3 +11,7 @@ api:
     title: chordLyric - build no. ${api.build.version}
     description: Server component chordLyric
     version: 0.1
+
+jwt:
+  header: Authorization
+  secret: my-very-secret-key

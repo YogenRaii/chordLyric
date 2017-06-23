@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,15 +43,17 @@ public class SongController implements BaseController<Song> {
 
 	private final SongService songService;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CONTRIBUTER')")
 	@PostMapping(value = "/songs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> createUser(
-			@ApiParam(value = "Request Body for User", required = true) @Valid @RequestBody Song song,
-			BindingResult bindingResult) {
+	public ResponseEntity<?> createSong(
+			@ApiParam(value = "Request Body for Song", required = true) @Valid @RequestBody Song song,
+			BindingResult bindingResult,
+			@ApiParam(value = "Token with format 'Bearer Token'", required = true) @RequestHeader("Authorization") final String authorization) {
 		if (bindingResult.hasErrors()) {
 			throw new DataException(ErrorCodes.EXC400.toString(), bindingResult);
 		}
 		String createdSongId = this.songService.createSong(song);
-		log.info("feedback saved id: {}", createdSongId);
+		log.info("Song saved id: {}", createdSongId);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

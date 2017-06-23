@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.chordLyric.api.models.impl.User;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
 		return Optional.ofNullable(this.userRepository.findOne(id));
 	}
 
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Override
 	public User createUser(User user) {
 		return this.userRepository.save(user);

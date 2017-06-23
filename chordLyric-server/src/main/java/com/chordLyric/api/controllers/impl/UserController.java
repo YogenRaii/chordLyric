@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,15 +43,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 @RestController
 public class UserController implements BaseController<User> {
-	/*@Value("${jwt.secret}")
-	private String secret;*/
-
+	
 	private final UserService userService;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<User> createUser(
 			@ApiParam(value = "Request Body for User", required = true) @Valid @RequestBody UserRequest userRequest,
-			BindingResult bindingResult) {
+			BindingResult bindingResult,
+			@ApiParam(value = "Token with format 'Bearer Token'", required = true) @RequestHeader("Authorization") final String authorization) {
 		if (bindingResult.hasErrors()) {
 			throw new DataException(ErrorCodes.EXC400.toString(), bindingResult);
 		}

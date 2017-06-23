@@ -58,4 +58,10 @@ public class Song extends Article {
 	@Valid
 	@DynamoDBAttribute(attributeName = "Artists")
 	private List<Artist> artists;
+	
+	@DynamoDBAttribute(attributeName = "IsApproved")
+	private boolean isApproved;
+	
+	@DynamoDBAttribute(attributeName = "ContributerId")
+	private String contributerId;
 }
