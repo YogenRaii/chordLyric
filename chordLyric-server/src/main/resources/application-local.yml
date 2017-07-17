@@ -13,3 +13,22 @@ amazon:
 logging:
   level: 
     org.springframework.security: DEBUG
+    
+#elasticsearch:
+#  clustername: chordLyric-cluster
+#  host: localhost
+#  port: 9300
+
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/chord_lyric
+    username: root
+    password: 
+  data:
+    elasticsearch:
+      cluster-nodes: https://cdf004dfd6498bc1095767e1d515c75b.us-east-1.aws.found.io:9243 #127.0.0.1:9300
+      #cluster-name: elasticsearch

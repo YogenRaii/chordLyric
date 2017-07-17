@@ -5,8 +5,13 @@ package com.chordLyric.api.models.impl;
 
 import java.util.Date;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import com.chordLyric.api.models.types.ArtistType;
 
 import lombok.AllArgsConstructor;
@@ -21,18 +26,19 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
-@DynamoDBDocument
+@Entity
 public class UpdateDetail {
-
-	@DynamoDBAttribute(attributeName = "DateUpdated")
-	private Date dateUpdated;
 	
-	@DynamoDBAttribute(attributeName = "ContributerId")
+	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
+
+	private Date dateUpdated = new Date();
+	
 	private String contributerId;
 	
-	@DynamoDBAttribute(attributeName = "ContributerUsername")
 	private String contributerUsername;
 }

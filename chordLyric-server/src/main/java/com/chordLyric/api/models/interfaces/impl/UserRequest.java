@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.chordLyric.api.models.interfaces.BaseRequest;
 
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.chordLyric.api.config;
+/*package com.chordLyric.api.config;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,58 +24,57 @@ import com.chordLyric.api.utils.SystemParams;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
+*//**
  * @author Yogen
  * 
- * Configuration for connecting to Amazon DynamoDB and creating a table if doesn't exist.
+ *         Configuration for connecting to Amazon DynamoDB and creating a table
+ *         if doesn't exist.
  *
- */
+ *//*
 
 @Configuration
-@EnableDynamoDBRepositories(basePackages="com.chordLyric.api.repositories")
+@EnableDynamoDBRepositories(basePackages = "com.chordLyric.api.repositories")
 @Slf4j
 public class DynamoDBConfig {
 	@Value("${amazon.dynamodb.endpoint}")
 	private String amazonDynamoDBEndpoint;
-	
+
 	@Autowired
 	private DynamoDBMapper dynamoDBMapper;
 
-	@Bean 
+	@Bean
 	public AmazonDynamoDB amazonDynamoDB() {
 		AmazonDynamoDB amazonDynamoDB = new AmazonDynamoDBClient();
-		
+
 		if (!StringUtils.isNullOrEmpty(amazonDynamoDBEndpoint)) {
 			amazonDynamoDB.setEndpoint(amazonDynamoDBEndpoint);
 		}
 
 		return amazonDynamoDB;
 	}
-	
+
 	@Bean
 	public DynamoDBMapper dynamoDBMapper() {
 		return new DynamoDBMapper(amazonDynamoDB());
 	}
-	
 
 	@PostConstruct
 	public void setupDB() {
 		AmazonDynamoDB amazonDynamoDB = amazonDynamoDB();
-		
+
 		ListTablesResult listTablesResult = amazonDynamoDB.listTables();
-		
-		List<CreateTableRequest> tableRequests = Arrays.asList(
-				dynamoDBMapper.generateCreateTableRequest(User.class),
-				dynamoDBMapper.generateCreateTableRequest(Song.class)
-				);
-		
+
+		List<CreateTableRequest> tableRequests = Arrays.asList(dynamoDBMapper.generateCreateTableRequest(User.class),
+				dynamoDBMapper.generateCreateTableRequest(Song.class));
+
 		tableRequests.stream().forEach(tableRequest -> {
-			if(!listTablesResult.getTableNames().contains(tableRequest.getTableName())) {
+			if (!listTablesResult.getTableNames().contains(tableRequest.getTableName())) {
 				log.info("Creating a table with name: {}", tableRequest.getTableName());
-				tableRequest.setProvisionedThroughput(new ProvisionedThroughput(SystemParams.READ_CAPACITY_UNITS, 
-						SystemParams.WRITE_CAPACITY_UNITS));
+				tableRequest.setProvisionedThroughput(
+						new ProvisionedThroughput(SystemParams.READ_CAPACITY_UNITS, SystemParams.WRITE_CAPACITY_UNITS));
 				amazonDynamoDB.createTable(tableRequest);
 			}
 		});
 	}
 }
+*/

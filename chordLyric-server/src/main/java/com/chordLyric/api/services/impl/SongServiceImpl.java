@@ -1,5 +1,6 @@
 package com.chordLyric.api.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.chordLyric.api.models.common.ErrorCodes;
 import com.chordLyric.api.models.impl.Song;
 import com.chordLyric.api.models.references.ErrorReference;
 import com.chordLyric.api.repositories.SongRepository;
+import com.chordLyric.api.search.repositories.SongSearchRepository;
 import com.chordLyric.api.services.SongService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,13 @@ public class SongServiceImpl implements SongService {
 
 	private final SongRepository songRepository;
 	
+	private final SongSearchRepository songSearchRepository;
+	
 	@Override
 	public Optional<Song> findOne(String id) {
+		List<Song> songs = this.songSearchRepository.findByTitle("Song");
+		System.out.println(songs.size());
+		songs.stream().forEach(System.out::println);
 		return Optional.ofNullable(this.songRepository.findOne(id));
 	}
 
@@ -35,6 +42,9 @@ public class SongServiceImpl implements SongService {
 	@Override
 	public String create(Song song) { 
 		Song createdSong = this.songRepository.save(song);
+		if(createdSong != null) {
+			this.songSearchRepository.save(song);
+		}
 		return createdSong.getId();
 	}
 

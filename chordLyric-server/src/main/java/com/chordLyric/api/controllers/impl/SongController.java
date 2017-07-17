@@ -4,6 +4,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -64,7 +65,7 @@ public class SongController implements BaseController<Song> {
 		if (bindingResult.hasErrors()) {
 			throw new DataException(ErrorCodes.EXC400.toString(), bindingResult);
 		}
-		
+//		song.setId(UUID.randomUUID().toString());
 		song.setApproved(false);
 		
 		//setting contributer ID with currently loggedIn user
@@ -96,9 +97,14 @@ public class SongController implements BaseController<Song> {
 		
 		AuthenticatedUser contributer = (AuthenticatedUser)auth.getPrincipal();
 		
-		UpdateDetail lastUpdate = new UpdateDetail(new Date(), contributer.getId(), contributer.getUsername());
+		UpdateDetail lastUpdate = new UpdateDetail();
+		lastUpdate.setContributerId(contributer.getId());
+		lastUpdate.setContributerUsername(contributer.getUsername());
 		
-		song.setLastUpdate(lastUpdate);
+		List<UpdateDetail> updates = song.getUpdateDetails();
+		updates.add(lastUpdate);
+		
+		song.setUpdateDetails(updates);
 		
 		Song updatedSong = this.songService.update(song);
 		log.info("Song updated id: {}", updatedSong.getId());

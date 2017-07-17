@@ -3,8 +3,7 @@
  */
 package com.chordLyric.api.repositories;
 
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.chordLyric.api.models.impl.Song;
 
@@ -12,7 +11,6 @@ import com.chordLyric.api.models.impl.Song;
  * @author Yogen
  *
  */
-@EnableScan
-public interface SongRepository extends CrudRepository<Song, String> {
+public interface SongRepository extends JpaRepository<Song, String> {
 
 }
