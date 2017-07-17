@@ -10,4 +10,7 @@ import com.chordLyric.api.models.impl.User;
  *
  */
 public interface UserService extends CommonService<String, User> {
+	User findByEmailAndPassword(String email, String password);
+	
+	boolean exists(String userId);
 }

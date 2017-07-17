@@ -12,7 +12,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.chordLyric.api.security.exceptions.JwtTokenExpiredException;
 import com.chordLyric.api.security.exceptions.JwtTokenMalformedException;
+import com.chordLyric.api.security.exceptions.JwtUserNotFoundException;
 import com.chordLyric.api.security.models.AuthenticatedUser;
 import com.chordLyric.api.security.models.JwtAuthenticationToken;
 import com.chordLyric.api.security.transfer.JwtUserDto;
@@ -55,17 +57,9 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         }
         
         //validate against stored user
-        /*Optional<User> userOptional = this.userService.findOne(parsedUser.getId());
-        
-        if(userOptional.isPresent()) {
-        	User user = userOptional.get();
-        	String usernameDB = user.getFirstName() + "-" + user.getLastName();
-        	if(!user.getToken().equals(token) && !parsedUser.getUsername().equals(usernameDB)) {
-        		throw new JwtTokenExpiredException("JWT Token expired.");
-        	}
-        } else {
+        if(!this.userService.exists(parsedUser.getId())) {
         	throw new JwtUserNotFoundException("User with JWT token not found");
-        }*/
+        }
 
         List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(parsedUser.getRole());
 

@@ -8,6 +8,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import com.chordLyric.api.exceptions.NotFoundException;
+import com.chordLyric.api.models.common.ErrorCodes;
 import com.chordLyric.api.models.impl.Song;
 import com.chordLyric.api.models.impl.User;
 import com.chordLyric.api.repositories.UserRepository;
@@ -46,6 +48,24 @@ public class UserServiceImpl implements UserService {
 	public User update(User user) {
 		return null;
 	}
+
+
+	@Override
+	public User findByEmailAndPassword(String email, String password) {
+		User userInDB = this.userRepository.findByEmailAndPassword(email, password);
+		
+		if(userInDB == null) {
+			throw new NotFoundException(ErrorCodes.EXC404.toString(), null);
+		}
+		return userInDB;
+	}
+
+	@Override
+	public boolean exists(String userId) {
+		return this.userRepository.exists(userId);
+	}
+	
+	
 	
 
 }

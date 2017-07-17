@@ -15,5 +15,5 @@ import com.chordLyric.api.models.impl.User;
  */
 @EnableScan
 public interface UserRepository extends CrudRepository<User, String> {
-
+	User findByEmailAndPassword(String email, String password);
 }

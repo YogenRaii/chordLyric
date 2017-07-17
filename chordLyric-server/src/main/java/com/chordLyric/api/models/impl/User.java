@@ -51,6 +51,12 @@ public class User extends Model<String> {
 	@DynamoDBAttribute(attributeName = "Email")
 	private String email;
 	
+	@JsonIgnore
+	@NotEmpty 
+	@NotNull
+	@DynamoDBAttribute(attributeName = "Password")
+	private String password;
+	
 	@NotEmpty 
 	@NotNull
 	@DynamoDBAttribute(attributeName = "FirstName")
