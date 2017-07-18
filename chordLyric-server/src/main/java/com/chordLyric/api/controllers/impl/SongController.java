@@ -4,6 +4,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -115,15 +116,12 @@ public class SongController implements BaseController<Song> {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/songSearch/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Song> getUser(
-			@ApiParam(value = "Id for Song", required = true) @PathVariable("id") String id) {
+	@GetMapping(value = "/songSearch", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Song>> getSongs(
+			@ApiParam(value = "Id for Song", required = true) @PathVariable("title") String title) {
 
-		Optional<Song> songOptional = this.songService.findOne(id);
-
-		return songOptional.map(song -> new ResponseEntity<>(song, HttpStatus.OK))
-				.orElseThrow(() -> new NotFoundException(ErrorCodes.EXC404.toString(), null));
-
+		List<Song> songs = this.songService.findSongsByTitle(title);
+		return new ResponseEntity<List<Song>>(songs, HttpStatus.OK);
 	}
 		
 

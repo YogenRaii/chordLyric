@@ -5,3 +5,8 @@ api:
 amazon:
   dynamodb:
     endpoint: https://dynamodb.us-east-1.amazonaws.com
+
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: search-inventory-rp3oetro645lbitr56th2sntke.us-east-1.es.amazonaws.com

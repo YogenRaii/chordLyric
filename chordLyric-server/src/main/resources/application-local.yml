@@ -13,3 +13,8 @@ amazon:
 logging:
   level: 
     org.springframework.security: DEBUG
+
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: search-inventory-rp3oetro645lbitr56th2sntke.us-east-1.es.amazonaws.com:9300 #localhost:9200
